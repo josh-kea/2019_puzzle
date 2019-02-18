@@ -17,9 +17,10 @@
                 outline : 0.5px solid grey;
     
             }
+        
         </style>
 </head>
-<body>
+<body class="theBody">
         <input type="text" id="inputLink" value="https://www.akc.org/wp-content/themes/akc/component-library/assets/img/welcome.jpg">
         <input type="number" id="inputX" value="3">
         <input type="number" id="inputY" value="3">
@@ -27,6 +28,8 @@
         
         <img src="" alt="">
         <div id="container"></div>
+        
+
 
         
     
@@ -137,6 +140,15 @@
 
                 }
 
+                // Randomizing placement of each piece
+                document.querySelectorAll(".draggable").forEach(eachDot => {
+
+                    eachDot.style.left = `${Math.random()*500 + 250}px`;
+
+
+
+});
+
                 // Dragging scripts come now
                 let dragged;
 
@@ -185,8 +197,6 @@
 
             }
 
-
-            // document.querySelector("body").appendChild(clone);
                 
                 
 
