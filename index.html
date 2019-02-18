@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Puzzle</title>
+    <style>
+            #container{
+                display:grid;
+                /* background-color: beige; */
+    /*            width :200px;*/
+    
+            }
+            .piece{
+                outline : 0.5px solid grey;
+    
+            }
+        </style>
+</head>
+<body>
+        <input type="text" id="inputLink" value="https://www.akc.org/wp-content/themes/akc/component-library/assets/img/welcome.jpg">
+        <input type="number" id="inputX" value="3">
+        <input type="number" id="inputY" value="3">
+        <button>Load Image</button>
+        
+        <img src="" alt="">
+        <div id="container"></div>
+
+        
+    
+    
+    
+    
+        <script>
+            let imageAddress = "";  
+            
+            let numOfXPieces;
+            let numOfYPieces;
+
+            let container_width;
+            let container_height;
+    
+            document.addEventListener("DOMContentLoaded", startTheScript);
+    
+            function startTheScript() {
+                document.querySelector("button").addEventListener("click", loadTheImage)
+                
+    
+            }
+    
+            function loadTheImage() {
+                // TODO Make sure image refreshes and container doesn't fuck up when click loading image for the second time
+                document.querySelector("#container").innerHTML = "";
+                
+                
+
+                imageAddress = document.getElementById("inputLink").value;
+                numOfXPieces = document.getElementById("inputX").value;
+                numOfYPieces = document.getElementById("inputY").value;
+                document.querySelector("img").src = imageAddress;
+                document.querySelector("img").onload = theImageHasLoaded;
+                document.querySelector("#container").style.BackgroundImage = "url(" + imageAddress + ")";
+                
+                console.log(imageAddress);
+                console.log(numOfXPieces);
+                console.log(numOfYPieces);
+
+                
+                
+    
+            }
+    
+            function theImageHasLoaded() {
+                
+                console.log("url('" + imageAddress + "')");
+                // The image width is only correct once the image has loaded. If the width and height was set before theImageHasLoaded() was run then they would both be 0.
+                let imgWidth = document.querySelector("img").clientWidth;
+                let imgHeight = document.querySelector("img").clientHeight;
+
+                container_height = imgHeight;
+                container_width = imgWidth;
+
+
+
+                //Code from two dimensional loop below 
+            
+            
+
+            document.querySelector("#container").style.gridTemplateColumns = `repeat(${numOfXPieces}, 1fr)`;
+            document.querySelector("#container").style.width = `${container_width}px`
+            for (let y = 0; y < numOfYPieces; y++) {
+                    for (let x = 0; x < numOfXPieces; x++) {
+
+                        let piece = document.createElement("div");
+
+
+                        piece.style.height = (container_height / numOfYPieces) + "px";
+
+
+                        // piece.textContent =  `${x}${y}`;
+                        piece.classList.add("dropzone");
+                        piece.dataset.id = `${x}${y}`;
+
+
+
+                        document.querySelector("#container").appendChild(piece);
+
+
+                }
+
+            }
+
+            let clone = document.querySelector("img").cloneNode(true);
+
+            clone.style.gridTemplateColumns = `repeat(${numOfXPieces}, 1fr)`;
+            clone.style.width = `${container_width}px`
+            for (let y = 0; y < numOfYPieces; y++) {
+                    for (let x = 0; x < numOfXPieces; x++) {
+
+                        let piece = document.createElement("div");
+
+
+                        piece.style.height = (container_height / numOfYPieces) + "px";
+
+
+                        // piece.textContent =  `${x}${y}`;
+                        piece.classList.add("piece");
+                        piece.dataset.id = `${x}${y}`;
+
+
+
+                        document.querySelector("#container").appendChild(piece);
+
+
+                }
+
+            }
+
+
+            // document.querySelector("body").appendChild(clone);
+                
+                
+
+                
+
+    
+            }
+
+            
+
+
+
+
+
+
+        </script>
+    
+</body>
+</html>
