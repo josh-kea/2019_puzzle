@@ -10,6 +10,7 @@
                 display:grid;
                 /* background-color: beige; */
     /*            width :200px;*/
+            border:1px solid black;
     
             }
             .piece{
@@ -111,7 +112,7 @@
 
             }
 
-            let clone = document.querySelector("img").cloneNode(true);
+            let clone = document.querySelector("#container").cloneNode(true);
 
             clone.style.gridTemplateColumns = `repeat(${numOfXPieces}, 1fr)`;
             clone.style.width = `${container_width}px`
@@ -120,13 +121,14 @@
 
                         let piece = document.createElement("div");
 
-
+                        piece.style.backgroundImage = "url('" + imageAddress + "')";
                         piece.style.height = (container_height / numOfYPieces) + "px";
 
 
                         // piece.textContent =  `${x}${y}`;
-                        piece.classList.add("piece");
+                        piece.classList.add("draggable");
                         piece.dataset.id = `${x}${y}`;
+                        piece.draggable = true;
 
 
 
@@ -134,6 +136,52 @@
 
 
                 }
+
+                // Dragging scripts come now
+                let dragged;
+
+            /* events fired on the draggable target */
+            document.addEventListener("drag", function(event) {
+
+            });
+
+            document.addEventListener("dragstart", function(event) {
+                // store a ref. on the dragged elem
+                dragged = event.target;
+                // make it half transparent
+                event.target.style.opacity = .5;
+            });
+
+            document.addEventListener("dragend", function(event) {
+                // reset the transparency
+                event.target.style.opacity = "";
+            });
+
+            /* events fired on the drop targets */
+            document.addEventListener("dragover", function(event) {
+                // prevent default to allow drop
+                event.preventDefault();
+            });
+
+            document.addEventListener("drop", function(event) {
+                // prevent default action (open as link for some elements)
+                event.preventDefault();
+                console.log("DROP" ,event.target.className)
+                // move dragged elem to the selected drop target
+                if (event.target.className == "dropzone") {
+                    event.target.style.background = "";
+                    dragged.parentNode.removeChild(dragged);
+                    event.target.appendChild(dragged);
+                    dragged.style.left = event.target.style.left;
+                    dragged.style.top = event.target.style.top;
+                }else if(event.target.className == "theBody"){
+                    // park the dragged elem somewhere on the body
+                    dragged.style.left = event.pageX+ "px";
+                    dragged.style.top = event.pageY+ "px";
+
+                }
+
+            });
 
             }
 
